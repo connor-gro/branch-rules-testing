@@ -1,0 +1,22 @@
+# Source - https://stackoverflow.com/a/77435773
+# Posted by ajs_app, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-05-06, License - CC BY-SA 4.0
+
+name: Check pull request source branch
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+jobs:
+  check-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branches
+        run: |
+          if [ "${{ github.head_ref }}" != "dev" ] && [ "${{ github.base_ref }}" == "main" ]; then
+            echo "Merge requests to the main branch are only allowed from the dev branch."
+            exit 1
+          fi
