@@ -5,6 +5,8 @@
 name: Check pull request source branch
 on:
   pull_request_target:
+    branches:
+      - main
     types:
       - opened
       - reopened
@@ -16,7 +18,7 @@ jobs:
     steps:
       - name: Check branches
         run: |
-          if [ "${{ github.head_ref }}" != "dev" ] && [ "${{ github.base_ref }}" == "main" ]; then
+          if [ "${{ github.head_ref }}" != "dev" ] ]; then
             echo "Merge requests to the main branch are only allowed from the dev branch."
             exit 1
           fi
