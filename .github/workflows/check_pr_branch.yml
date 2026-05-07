@@ -28,7 +28,7 @@ jobs:
           fi
 
           # If triggered by a manual PR creation, verify the source branch
-          if [ "${{ github.head_ref }}" != "dev" ] ]; then
+          if [ "${{ github.head_ref }}" != "dev" ]; then
             echo "Merge requests to the main branch are only allowed from the dev branch."
             exit 1
           fi
