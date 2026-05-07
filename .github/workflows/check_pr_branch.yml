@@ -1,9 +1,7 @@
-# Source - https://stackoverflow.com/a/77435773
-# Posted by ajs_app, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-05-06, License - CC BY-SA 4.0
-
+# Based on  - https://stackoverflow.com/a/77435773
 name: Check pull request source branch
 on:
+  # Triggers when a contributor manually opens a PR
   pull_request_target:
     branches:
       - main
@@ -12,12 +10,24 @@ on:
       - reopened
       - synchronize
       - edited
+  # Triggers when dev is updated
+  push:
+    branches:
+      - dev
+
 jobs:
   check-branches:
     runs-on: ubuntu-latest
     steps:
       - name: Check branches
         run: |
+          # If triggered by the push to dev, auto-pass the check
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo "Code was pushed to dev. Passing status check for the commit."
+            exit 0
+          fi
+
+          # If triggered by a manual PR creation, verify the source branch
           if [ "${{ github.head_ref }}" != "dev" ]; then
             echo "Merge requests to the main branch are only allowed from the dev branch."
             exit 1
