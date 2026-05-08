@@ -12,8 +12,8 @@ on:
     branches:
       - dev
 
-# Opt into Node 24 to suppress the setup-ros deprecation warning
 env:
+  # Opt into Node 24 to suppress the setup-ros deprecation warning
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   # Explicitly tell ccache where to store files so actions/cache can find them
   CCACHE_DIR: ${{ github.workspace }}/.ccache
