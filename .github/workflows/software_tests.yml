@@ -26,6 +26,8 @@ jobs:
       # Checkout the repository code
       - name: Checkout Code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 1  # CI only needs most recent commit
 
       # Setup standard ROS 2 Jazzy environment
       - name: Setup ROS 2
