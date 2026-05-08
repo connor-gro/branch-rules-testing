@@ -9,12 +9,12 @@ on:
       - dev
   # Run when dev updated
   push:
-    # branches:
-    #   - dev
+    branches:
+      - dev
 
 # Opt into Node 24 to suppress the setup-ros deprecation warning
-# env:
-#   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build-and-test:
