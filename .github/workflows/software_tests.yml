@@ -37,7 +37,7 @@ jobs:
       - name: Cache rosdep
         uses: actions/cache@v5
         with:
-          path: ~/.ros/rosdep
+          path: /home/runner/.ros/rosdep
           key: ${{ runner.os }}-rosdep-${{ hashFiles('**/package.xml') }}
           restore-keys: |
             ${{ runner.os }}-rosdep-
@@ -46,14 +46,12 @@ jobs:
       - name: Cache ccache
         uses: actions/cache@v5
         with:
-          path: ${{ env.CCACHE_DIR }}
-          # Use the commit SHA to create a unique key so it saves at the end of EVERY run
+          path: .ccache
           key: ${{ runner.os }}-ccache-${{ github.sha }}
-          # On the next run, it restores the most recent cache that starts with this prefix
           restore-keys: |
-            ${{ runner.os }}-ccache-  
+            ${{ runner.os }}-ccache-
       
-      # Download and install all package.xml dependencies (including libserial-dev)
+      # Download and install all package.xml dependencies
       - name: Install Dependencies & ccache
         run: |
           # Install ccache explicitly because it is not pre-installed on ubuntu-24.04
@@ -65,6 +63,9 @@ jobs:
       - name: Build Workspace
         run: |
           source /opt/ros/jazzy/setup.bash
+          # Ensure the build process sees the cache folder
+          export CCACHE_DIR=$GITHUB_WORKSPACE/.ccache
+
           # Reset ccache stats before the build
           ccache -z
           
